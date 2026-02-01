@@ -1,0 +1,36 @@
+{
+  "id": "idwise-uni-plugin",
+  "displayName": "IDWise Uni Plugin",
+  "name": "idwise-uni-plugin",
+  "version": "6.1.1",
+  "description": "IDWise SDK native plugin for uni-app",
+  "_dp_type": "nativeplugin",
+  "_dp_nativeplugin": {
+    "ios": {
+      "hooksClass": "IDWisePluginProxy",
+      "plugins": [
+        {
+          "type": "module",
+          "name": "idwise-uni-plugin",
+          "class": "IDWiseModule"
+        }
+      ],
+      "integrateType": "framework",
+      "frameworks": [
+        "IDWiseSDK.xcframework",
+        "ShieldPtr.xcframework",
+        "FingerprintPro.xcframework"
+      ],
+      "embedFrameworks": [
+        "IDWiseSDK.xcframework",
+        "ShieldPtr.xcframework",
+        "FingerprintPro.xcframework"
+      ],
+      "privacies": [
+        "NSCameraUsageDescription",
+        "NSLocationWhenInUseUsageDescription",
+        "NFCReaderUsageDescription"
+      ]
+    }
+  }
+}
