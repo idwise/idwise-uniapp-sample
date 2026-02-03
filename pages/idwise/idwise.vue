@@ -219,6 +219,23 @@ export default {
     },
 
     resumeJourney() {
+      if (!this.IDWise) {
+        uni.showToast({
+          title: 'Plugin not loaded',
+          icon: 'error'
+        });
+        this.addLog('ERROR: IDWise plugin not loaded');
+        return;
+      }
+
+      if (!this.clientKey) {
+        uni.showToast({
+          title: 'Please enter Client Key',
+          icon: 'none'
+        });
+        return;
+      }
+
       if (!this.flowId) {
         uni.showToast({
           title: 'Please enter Flow ID',
@@ -235,37 +252,60 @@ export default {
         return;
       }
 
-      this.addLog('Resuming journey...');
+      this.addLog('Initializing SDK before resuming journey...');
 
-      const options = {
-        flowId: this.flowId,
-        journeyId: this.journeyId,
-        locale: 'en'
+      const initOptions = {
+        clientKey: this.clientKey,
+        theme: this.selectedTheme
       };
 
-      this.IDWise.resumeJourney(options, (result) => {
-        this.addLog(`Journey event: ${JSON.stringify(result)}`);
+      this.IDWise.initialize(initOptions, (result) => {
+        this.addLog(`Initialize result: ${JSON.stringify(result)}`);
 
-        if (result.event === 'onJourneyResumed') {
-          uni.showToast({
-            title: 'Journey Resumed',
-            icon: 'success'
+        if (result.success) {
+          this.sdkStatus = 'Initialized';
+          this.sdkInitialized = true;
+          this.addLog('SDK Initialized successfully, resuming journey...');
+
+          const options = {
+            flowId: this.flowId,
+            journeyId: this.journeyId,
+            locale: 'en'
+          };
+
+          this.IDWise.resumeJourney(options, (journeyResult) => {
+            this.addLog(`Journey event: ${JSON.stringify(journeyResult)}`);
+
+            if (journeyResult.event === 'onJourneyResumed') {
+              uni.showToast({
+                title: 'Journey Resumed',
+                icon: 'success'
+              });
+            } else if (journeyResult.event === 'onJourneyCompleted') {
+              uni.showToast({
+                title: journeyResult.data.isSuccessful ? 'Journey Completed' : 'Journey Failed',
+                icon: journeyResult.data.isSuccessful ? 'success' : 'error'
+              });
+            } else if (journeyResult.event === 'onJourneyCancelled') {
+              uni.showToast({
+                title: 'Journey Cancelled',
+                icon: 'none'
+              });
+            } else if (journeyResult.event === 'onError') {
+              uni.showToast({
+                title: journeyResult.data.message || 'Error occurred',
+                icon: 'error'
+              });
+            }
           });
-        } else if (result.event === 'onJourneyCompleted') {
+        } else {
+          this.sdkStatus = 'Initialization Failed';
+          const errorMessage = result.error && result.error.message ? result.error.message : 'Initialization failed';
           uni.showToast({
-            title: result.data.isSuccessful ? 'Journey Completed' : 'Journey Failed',
-            icon: result.data.isSuccessful ? 'success' : 'error'
-          });
-        } else if (result.event === 'onJourneyCancelled') {
-          uni.showToast({
-            title: 'Journey Cancelled',
-            icon: 'none'
-          });
-        } else if (result.event === 'onError') {
-          uni.showToast({
-            title: result.data.message || 'Error occurred',
+            title: errorMessage,
             icon: 'error'
           });
+          this.addLog('ERROR: Failed to initialize SDK before resuming');
         }
       });
     },
