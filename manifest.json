@@ -58,6 +58,7 @@
                 ]
             },
             "ios" : {
+                "deploymentTarget" : "15.6",
                 "UIBackgroundModes" : [ "audio" ],
                 "urlschemewhitelist" : [ "baidumap", "iosamap" ],
                 "privacyDescription" : {
