@@ -2,8 +2,8 @@
   {
     "metadataOutputVersion" : "3.0",
     "userDefinedMetadata" : {
-      "classes" : "Doc",
       "confidence_threshold" : "0.25",
+      "classes" : "Doc",
       "iou_threshold" : "0.45"
     },
     "classLabels" : [

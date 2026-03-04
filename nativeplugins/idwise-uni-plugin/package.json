@@ -2,7 +2,7 @@
   "id": "idwise-uni-plugin",
   "displayName": "IDWise Uni Plugin",
   "name": "idwise-uni-plugin",
-  "version": "6.1.1",
+  "version": "6.2.5",
   "description": "IDWise SDK native plugin for uni-app",
   "_dp_type": "nativeplugin",
   "_dp_nativeplugin": {
@@ -17,14 +17,14 @@
       ],
       "integrateType": "framework",
       "frameworks": [
-        "IDWiseSDK.xcframework",
-        "ShieldPtr.xcframework",
-        "FingerprintPro.xcframework"
+        "IDWiseSDK.framework",
+        "ShieldPtr.framework",
+        "FingerprintPro.framework"
       ],
       "embedFrameworks": [
-        "IDWiseSDK.xcframework",
-        "ShieldPtr.xcframework",
-        "FingerprintPro.xcframework"
+        "IDWiseSDK.framework",
+        "ShieldPtr.framework",
+        "FingerprintPro.framework"
       ],
       "privacies": [
         "NSCameraUsageDescription",

@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.0.2 effective-5.10 (swiftlang-6.0.2.1.2 clang-1600.0.26.4)
-// swift-module-flags: -target arm64-apple-ios15.6 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name IDWiseSDK
-// swift-module-flags-ignorable: -no-verify-emitted-module-interface
+// swift-compiler-version: Apple Swift version 6.2.3 effective-5.10 (swiftlang-6.2.3.3.21 clang-1700.6.3.2)
+// swift-module-flags: -target arm64-apple-ios15.6 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -module-name IDWiseSDK
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.3
 import AVFoundation
 import AVKit
 import AdSupport
@@ -18,6 +18,7 @@ import MachO
 import MobileCoreServices
 import OSLog
 import PDFKit
+import PhotosUI
 import ShieldPtr
 import Swift
 import SwiftUI
@@ -54,21 +55,33 @@ public enum IDWiseTheme {
   @objc deinit
 }
 @_inheritsConvenienceInitializers public class IDWise : IDWiseSDK.IDWiseInternal {
+  #if compiler(>=5.3) && $NonescapableTypes
   public class func startJourney(flowId: Swift.String, referenceNumber: Swift.String = "", locale: Swift.String = "", applicantDetails: [Swift.String : Swift.String]?, journeyCallbacks: any IDWiseSDK.IDWiseJourneyCallbacks)
+  #endif
   public class func resumeJourney(flowId: Swift.String, journeyId: Swift.String, locale: Swift.String = "", journeyCallbacks: any IDWiseSDK.IDWiseJourneyCallbacks)
+  #if compiler(>=5.3) && $NonescapableTypes
   public class func initialize(clientKey: Swift.String, theme: IDWiseSDK.IDWiseTheme, onSuccess: @escaping () -> (), onError: @escaping (IDWiseSDK.IDWiseError?) -> ())
+  #endif
   public class func isDeviceBlocked() -> Swift.Bool
   @objc deinit
 }
 @_inheritsConvenienceInitializers public class IDWiseDynamic : IDWiseSDK.IDWiseInternal {
+  #if compiler(>=5.3) && $NonescapableTypes
   public class func startJourney(flowId: Swift.String, referenceNumber: Swift.String = "", locale: Swift.String = "", applicantDetails: [Swift.String : Swift.String]?, journeyCallbacks: any IDWiseSDK.IDWiseJourneyCallbacks, stepCallbacks: any IDWiseSDK.IDWiseStepCallbacks)
+  #endif
   public class func resumeJourney(flowId: Swift.String, journeyId: Swift.String, locale: Swift.String = "", journeyCallbacks: any IDWiseSDK.IDWiseJourneyCallbacks, stepCallbacks: any IDWiseSDK.IDWiseStepCallbacks)
   public class func startStep(stepId: Swift.String)
   @available(*, deprecated)
   public class func startStepFromFileUpload(stepId: Swift.String, data: Foundation.Data)
+  #if compiler(>=5.3) && $NonescapableTypes
   public class func startStepFromFileUpload(stepId: Swift.String, image: Foundation.Data, backImage: Foundation.Data? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public class func initialize(clientKey: Swift.String, theme: IDWiseSDK.IDWiseTheme, onSuccess: @escaping () -> (), onError: @escaping (IDWiseSDK.IDWiseError?) -> ())
-  public class func getJourneySummary(callback: @escaping ((IDWiseSDK.JourneySummary?, IDWiseSDK.IDWiseError?) -> ()))
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public class func getJourneySummary(callback: @escaping (IDWiseSDK.JourneySummary?, IDWiseSDK.IDWiseError?) -> ())
+  #endif
   public class func unloadSDK()
   public class func finishJourney()
   public class func skipStep(stepId: Swift.String)
@@ -96,14 +109,18 @@ extension IDWiseSDK.MenuWidgetView : UIKit.UITableViewDelegate, UIKit.UITableVie
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func numberOfSections(in tableView: UIKit.UITableView) -> Swift.Int
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, heightForHeaderInSection section: Swift.Int) -> CoreFoundation.CGFloat
+  #if compiler(>=5.3) && $NonescapableTypes
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, viewForHeaderInSection section: Swift.Int) -> UIKit.UIView?
+  #endif
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
   @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, heightForRowAt indexPath: Foundation.IndexPath) -> CoreFoundation.CGFloat
 }
 public enum LogLevel : Swift.String {
   case `default`
   case verbose
+  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
+  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
@@ -156,7 +173,9 @@ public enum LoaderPosition {
   }
 }
 @_hasMissingDesignatedInitializers public class LoadingView {
+  #if compiler(>=5.3) && $NonescapableTypes
   public static func show(message: Swift.String? = nil, font: UIKit.UIFont? = UIFont.systemFont(ofSize: 16,weight: .bold), position: IDWiseSDK.LoaderPosition = .middle)
+  #endif
   public static func hide()
   public static func isVisible() -> Swift.Bool
   @objc deinit
@@ -196,7 +215,9 @@ extension UIKit.UIFont {
 public enum JourneyCancellationReason : Swift.String, Swift.Codable {
   case userCancelled
   case tokenExpired
+  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
+  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
@@ -255,7 +276,9 @@ public protocol NetworkSessionManager {
 }
 public protocol NetworkErrorLogger {
   func log(request: Foundation.URLRequest)
+  #if compiler(>=5.3) && $NonescapableTypes
   func log(responseData data: Foundation.Data?, response: Foundation.URLResponse?)
+  #endif
   func log(error: any Swift.Error)
 }
 final public class DefaultNetworkService {
@@ -270,7 +293,9 @@ public class DefaultNetworkSessionManager : IDWiseSDK.NetworkSessionManager {
 final public class DefaultNetworkErrorLogger : IDWiseSDK.NetworkErrorLogger {
   public init()
   final public func log(request: Foundation.URLRequest)
+  #if compiler(>=5.3) && $NonescapableTypes
   final public func log(responseData data: Foundation.Data?, response: Foundation.URLResponse?)
+  #endif
   final public func log(error: any Swift.Error)
   @objc deinit
 }
@@ -302,7 +327,9 @@ public class RawDataResponseDecoder : IDWiseSDK.ResponseDecoder {
 public enum CancellationReason : Swift.String, Swift.Codable {
   case userCancelled
   case scanningTimeout
+  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
+  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
@@ -342,10 +369,16 @@ public struct StepCapturedInfo {
   public static func addCircle(atPoint point: CoreFoundation.CGPoint, to view: UIKit.UIView, color: UIKit.UIColor, radius: CoreFoundation.CGFloat)
   public static func addLineSegment(fromPoint: CoreFoundation.CGPoint, toPoint: CoreFoundation.CGPoint, inView: UIKit.UIView, color: UIKit.UIColor, width: CoreFoundation.CGFloat)
   public static func addRectangle(_ rectangle: CoreFoundation.CGRect, to view: UIKit.UIView, color: UIKit.UIColor)
+  #if compiler(>=5.3) && $NonescapableTypes
   public static func addShape(withPoints points: [Foundation.NSValue]?, to view: UIKit.UIView, color: UIKit.UIColor)
+  #endif
   public static func imageOrientation(fromDevicePosition devicePosition: AVFoundation.AVCaptureDevice.Position = .back) -> UIKit.UIImage.Orientation
+  #if compiler(>=5.3) && $NonescapableTypes
   public static func createUIImage(from imageBuffer: CoreVideo.CVImageBuffer, orientation: UIKit.UIImage.Orientation) -> UIKit.UIImage?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public static func createImageBuffer(from image: UIKit.UIImage) -> CoreVideo.CVImageBuffer?
+  #endif
   @objc deinit
 }
 @_hasMissingDesignatedInitializers final public class AppDIContainer {
@@ -365,11 +398,11 @@ public enum MRZFormat : Swift.CaseIterable {
     get
   }
   public static func == (a: IDWiseSDK.MRZFormat, b: IDWiseSDK.MRZFormat) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
   public typealias AllCases = [IDWiseSDK.MRZFormat]
   nonisolated public static var allCases: [IDWiseSDK.MRZFormat] {
     get
   }
+  public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
     get
   }
@@ -381,11 +414,11 @@ public struct MRZResult : Swift.Hashable {
     case id
     case undefined
     public static func == (a: IDWiseSDK.MRZResult.DocumentType, b: IDWiseSDK.MRZResult.DocumentType) -> Swift.Bool
-    public func hash(into hasher: inout Swift.Hasher)
     public typealias AllCases = [IDWiseSDK.MRZResult.DocumentType]
     nonisolated public static var allCases: [IDWiseSDK.MRZResult.DocumentType] {
       get
     }
+    public func hash(into hasher: inout Swift.Hasher)
     public var hashValue: Swift.Int {
       get
     }
@@ -395,11 +428,11 @@ public struct MRZResult : Swift.Hashable {
     case female
     case unspecified
     public static func == (a: IDWiseSDK.MRZResult.Sex, b: IDWiseSDK.MRZResult.Sex) -> Swift.Bool
-    public func hash(into hasher: inout Swift.Hasher)
     public typealias AllCases = [IDWiseSDK.MRZResult.Sex]
     nonisolated public static var allCases: [IDWiseSDK.MRZResult.Sex] {
       get
     }
+    public func hash(into hasher: inout Swift.Hasher)
     public var hashValue: Swift.Int {
       get
     }
@@ -417,17 +450,23 @@ public struct MRZResult : Swift.Hashable {
   public let expiryDate: Foundation.Date?
   public let optionalData: Swift.String?
   public let optionalData2: Swift.String?
+  #if compiler(>=5.3) && $NonescapableTypes
   public init(format: IDWiseSDK.MRZFormat, documentType: IDWiseSDK.MRZResult.DocumentType, documentTypeAdditional: Swift.Character?, countryCode: Swift.String, surnames: Swift.String, givenNames: Swift.String, documentNumber: Swift.String?, nationalityCountryCode: Swift.String, birthdate: Foundation.Date?, sex: IDWiseSDK.MRZResult.Sex, expiryDate: Foundation.Date?, optionalData: Swift.String?, optionalData2: Swift.String?)
-  public func hash(into hasher: inout Swift.Hasher)
+  #endif
   public static func == (a: IDWiseSDK.MRZResult, b: IDWiseSDK.MRZResult) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
     get
   }
 }
 public struct MRZParser {
   public init(isOCRCorrectionEnabled: Swift.Bool)
+  #if compiler(>=5.3) && $NonescapableTypes
   public func parse(mrzLines: [Swift.String]) -> IDWiseSDK.MRZResult?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func parse(mrzString: Swift.String) -> IDWiseSDK.MRZResult?
+  #endif
 }
 final public class Observable<Value> {
   final public var value: Value {
@@ -461,18 +500,30 @@ extension Swift.Error {
 public protocol PersistenceService {
   func set<EnumString, EnumKey>(enumString: EnumString, for key: EnumKey) where EnumString : Swift.RawRepresentable, EnumKey : Swift.RawRepresentable, EnumString.RawValue == Swift.String, EnumKey.RawValue == Swift.String
   func set<EnumKey>(string: Swift.String, for key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
   func string<EnumString, EnumKey>(for key: EnumKey) -> EnumString? where EnumString : Swift.RawRepresentable, EnumKey : Swift.RawRepresentable, EnumString.RawValue == Swift.String, EnumKey.RawValue == Swift.String
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   func string<EnumKey>(for key: EnumKey) -> Swift.String? where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #endif
   func register<EnumKey>(defaultValue: Swift.Bool, key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
   func set<EnumKey>(bool: Swift.Bool, for key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
   func bool<EnumKey>(for key: EnumKey) -> Swift.Bool where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
   func set<EnumKey>(date: Foundation.Date?, for key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   func date<EnumKey>(for key: EnumKey) -> Foundation.Date? where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #endif
   func set<EnumKey>(data: Foundation.Data, for key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
   func data<EnumKey>(for key: EnumKey) -> Foundation.Data? where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #endif
   func removeObject<EnumKey>(for key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
   func set<EnumKey>(int: Swift.Int, for key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
   func integer<EnumKey>(for key: EnumKey) -> Swift.Int? where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #endif
 }
 public enum HTTPMethodType : Swift.String {
   case get
@@ -481,7 +532,9 @@ public enum HTTPMethodType : Swift.String {
   case put
   case patch
   case delete
+  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
+  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
@@ -527,14 +580,20 @@ public protocol Requestable {
   var isFullPath: Swift.Bool { get }
   var method: IDWiseSDK.HTTPMethodType { get }
   var headerParamaters: [Swift.String : Swift.String] { get }
+  #if compiler(>=5.3) && $NonescapableTypes
   var queryParametersEncodable: (any Swift.Encodable)? { get }
+  #endif
   var queryParameters: [Swift.String : Any] { get }
+  #if compiler(>=5.3) && $NonescapableTypes
   var bodyParamatersEncodable: (any Swift.Encodable)? { get }
+  #endif
   var bodyParamaters: [Swift.String : Any] { get }
   var bodyEncoding: IDWiseSDK.BodyEncoding { get }
   var boundar: Swift.String { get }
   var bodyRequestType: IDWiseSDK.BodyRequestType { get }
+  #if compiler(>=5.3) && $NonescapableTypes
   var jsonEncodedData: Foundation.Data? { get }
+  #endif
   func urlRequest(with networkConfig: any IDWiseSDK.NetworkConfigurable) throws -> Foundation.URLRequest
 }
 public protocol ResponseRequestable : IDWiseSDK.Requestable {
@@ -545,8 +604,10 @@ extension IDWiseSDK.Requestable {
   public func urlRequest(with config: any IDWiseSDK.NetworkConfigurable) throws -> Foundation.URLRequest
 }
 public enum Model : Swift.String {
-  case simulator, iPad2, iPad3, iPad4, iPadAir, iPadAir2, iPadAir3, iPadAir4, iPad5, iPad6, iPad7, iPad8, iPad9, iPadMini, iPadMini2, iPadMini3, iPadMini4, iPadMini5, iPadMini6, iPadPro9_7, iPadPro10_5, iPadPro11, iPadPro2_11, iPadPro3_11, iPadPro12_9, iPadPro2_12_9, iPadPro3_12_9, iPadPro4_12_9, iPadPro5_12_9, iPhone4, iPhone4S, iPhone5, iPhone5S, iPhone5C, iPhone6, iPhone6Plus, iPhone6S, iPhone6SPlus, iPhoneSE, iPhone7, iPhone7Plus, iPhone8, iPhone8Plus, iPhoneX, iPhoneXS, iPhoneXSMax, iPhoneXR, iPhone11, iPhone11Pro, iPhone11ProMax, iPhoneSE2, iPhone12Mini, iPhone12, iPhone12Pro, iPhone12ProMax, iPhone13Mini, iPhone13, iPhone13Pro, iPhone13ProMax, iPhoneSE3, iPhone14, iPhone14Plus, iPhone14Pro, iPhone14ProMax, iPhone15, iPhone15Plus, iPhone15Pro, iPhone15ProMax, iPhone16, iPhone16Plus, iPhone16Pro, iPhone16ProMax, iPhone16e, unrecognized
+  case simulator, iPad2, iPad3, iPad4, iPadAir, iPadAir2, iPadAir3, iPadAir4, iPad5, iPad6, iPad7, iPad8, iPad9, iPadMini, iPadMini2, iPadMini3, iPadMini4, iPadMini5, iPadMini6, iPadPro9_7, iPadPro10_5, iPadPro11, iPadPro2_11, iPadPro3_11, iPadPro12_9, iPadPro2_12_9, iPadPro3_12_9, iPadPro4_12_9, iPadPro5_12_9, iPhone4, iPhone4S, iPhone5, iPhone5S, iPhone5C, iPhone6, iPhone6Plus, iPhone6S, iPhone6SPlus, iPhoneSE, iPhone7, iPhone7Plus, iPhone8, iPhone8Plus, iPhoneX, iPhoneXS, iPhoneXSMax, iPhoneXR, iPhone11, iPhone11Pro, iPhone11ProMax, iPhoneSE2, iPhone12Mini, iPhone12, iPhone12Pro, iPhone12ProMax, iPhone13Mini, iPhone13, iPhone13Pro, iPhone13ProMax, iPhoneSE3, iPhone14, iPhone14Plus, iPhone14Pro, iPhone14ProMax, iPhone15, iPhone15Plus, iPhone15Pro, iPhone15ProMax, iPhone16, iPhone16Plus, iPhone16Pro, iPhone16ProMax, iPhone16e, iPhone17, iPhoneAir, iPhone17Pro, iPhone17ProMax, unrecognized
+  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
+  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
@@ -555,9 +616,15 @@ public enum Model : Swift.String {
 public protocol Alertable {
 }
 extension IDWiseSDK.Alertable where Self : UIKit.UIViewController {
+  #if compiler(>=5.3) && $NonescapableTypes
   public func showAlert(title: Swift.String = "", message: Swift.String, preferredStyle: UIKit.UIAlertController.Style = .alert, completion: (() -> Swift.Void)? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func showAlertWithActions(title: Swift.String = "", message: Swift.String, preferredStyle: UIKit.UIAlertController.Style = .alert, confirmed: (() -> Swift.Void)? = nil, rejected: (() -> Swift.Void)? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func showAlertWithoutVC(title: Swift.String = "", message: Swift.String, preferredStyle: UIKit.UIAlertController.Style = .alert, completion: (() -> Swift.Void)? = nil)
+  #endif
   public func showPopUpForCancellingJourney(_ callBack: @escaping () -> ())
   public func showNFCNotSupportedAlert()
 }
@@ -576,7 +643,9 @@ public struct JourneyResultDTO : Swift.Codable {
 public enum InterimRuleAssessment : Swift.String, Swift.Codable {
   case Passed
   case Failed
+  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
+  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
@@ -586,7 +655,9 @@ public enum InterimRuleResult : Swift.String, Swift.Codable {
   case Passed
   case Failed
   case CouldNotApply
+  #if compiler(>=5.3) && $NonescapableTypes
   public init?(rawValue: Swift.String)
+  #endif
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String {
     get
@@ -664,23 +735,39 @@ public struct AccessibilityIdentifier {
   public static let shared: IDWiseSDK.UserDefaultsPersistenceService
   public func set<EnumString, EnumKey>(enumString: EnumString, for key: EnumKey) where EnumString : Swift.RawRepresentable, EnumKey : Swift.RawRepresentable, EnumString.RawValue == Swift.String, EnumKey.RawValue == Swift.String
   public func set<EnumKey>(string: Swift.String, for key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
   public func string<EnumString, EnumKey>(for key: EnumKey) -> EnumString? where EnumString : Swift.RawRepresentable, EnumKey : Swift.RawRepresentable, EnumString.RawValue == Swift.String, EnumKey.RawValue == Swift.String
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func string<EnumKey>(for key: EnumKey) -> Swift.String? where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #endif
   public func register<EnumKey>(defaultValue: Swift.Bool, key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
   public func set<EnumKey>(bool: Swift.Bool, for key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
   public func bool<EnumKey>(for key: EnumKey) -> Swift.Bool where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
   public func set<EnumKey>(date: Foundation.Date?, for key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func date<EnumKey>(for key: EnumKey) -> Foundation.Date? where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #endif
   public func set<EnumKey>(data: Foundation.Data, for key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
   public func data<EnumKey>(for key: EnumKey) -> Foundation.Data? where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #endif
   public func removeObject<EnumKey>(for key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
   public func set<EnumKey>(int: Swift.Int, for key: EnumKey) where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
   public func integer<EnumKey>(for key: EnumKey) -> Swift.Int? where EnumKey : Swift.RawRepresentable, EnumKey.RawValue == Swift.String
+  #endif
   @objc deinit
 }
 extension UIKit.UIImage {
+  #if compiler(>=5.3) && $NonescapableTypes
   public func resizeImage(with size: CoreFoundation.CGSize?) -> UIKit.UIImage?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
   public func cropped(to rect: CoreFoundation.CGRect?) -> UIKit.UIImage
+  #endif
 }
 extension UIKit.UIView {
   @_Concurrency.MainActor @preconcurrency public func addShadow(_ shadowColor: UIKit.UIColor)
